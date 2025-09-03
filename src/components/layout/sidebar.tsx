@@ -18,17 +18,31 @@ const menuItems = [
 ];
 
 const GrapeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    fill="currentColor"
-    stroke="currentColor"
-    strokeWidth="0.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}>
-      <path d="M12 2C9.24 2 7 4.24 7 7s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm-5 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm10 0c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM9 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm6 0c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" />
-      <path d="M14 6.5c0-1.11-.89-2-2-2s-2 .89-2 2 .89 2 2 2 2-.89 2-2zm-7 7c0-1.11-.89-2-2-2s-2 .89-2 2 .89 2 2 2 2-.89 2-2zm12 0c0-1.11-.89-2-2-2s-2 .89-2 2 .89 2 2 2 2-.89 2-2zm-5 7c0-1.11-.89-2-2-2s-2 .89-2 2 .89 2 2 2 2-.89 2-2zm-7 0c0-1.11-.89-2-2-2s-2 .89-2 2 .89 2 2 2 2-.89 2-2z"/>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M22 5V2l-5.5 5.5" />
+      <path d="M2 22v-3" />
+      <path d="M2 19a4 4 0 0 0 4 4" />
+      <path d="M13.73 22a4 4 0 0 0 3.46-6.02" />
+      <path d="M17.19 15.98a4 4 0 0 0-5.78-2.43" />
+      <path d="M11.41 13.55a4 4 0 0 0-5.8 2.45" />
+      <path d="M5.61 16a4 4 0 0 0 3.48 6" />
+      <path d="M9.09 22a4 4 0 0 0 3.47-6.01" />
+      <path d="M12.56 15.99a4 4 0 0 0-5.78-2.44" />
+      <path d="M12.56 15.99a4 4 0 0 0 5.78 2.44" />
+      <path d="M11.41 13.55a4 4 0 0 0 5.8-2.45" />
+      <path d="M17.21 11.1a4 4 0 0 0-3.48-6" />
+      <path d="M13.73 5.1a4 4 0 0 0-3.46 6.02" />
     </svg>
 )
 
