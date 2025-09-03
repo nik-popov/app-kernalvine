@@ -3,7 +3,7 @@
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 
-const ONBOARDING_STORAGE_KEY = 'kvm-cloud-onboarding-complete';
+const ONBOARDING_STORAGE_KEY = 'kernal-vine-onboarding-complete';
 
 const driverObj = driver({
   showProgress: true,

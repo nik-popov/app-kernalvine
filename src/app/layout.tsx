@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'KVM Cloud Rentals',
-  description: 'Rent Ubuntu VMs with KVM and a FastAPI Dashboard',
+  title: 'Kernal Vine',
+  description: 'Your source for virtual machine instances.',
 };
 
 export default function RootLayout({
