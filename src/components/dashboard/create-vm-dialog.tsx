@@ -35,6 +35,7 @@ import { useToast } from '@/hooks/use-toast';
 import { PlusCircle, Loader2, Wand2, Copy, Download } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { usePathname } from 'next/navigation';
 
 const formSchema = z.object({
   customerId: z.string().min(3, 'Instance name must be at least 3 characters.'),
@@ -53,6 +54,8 @@ export default function CreateVmDialog() {
     privateKey: string;
   } | null>(null);
   const { toast } = useToast();
+  const pathname = usePathname();
+  const isSettingsPage = pathname.includes('settings');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -115,146 +118,184 @@ export default function CreateVmDialog() {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values); // Mock API call
+    if (isSettingsPage) {
+      console.log('Key added:', values.sshKey); // Mock API call
+      toast({
+        title: 'SSH Key Added',
+        description: 'Your new SSH key has been saved.',
+      });
+    } else {
+      console.log('VM created:', values); // Mock API call
+      toast({
+        title: 'VM Provisioning Started',
+        description: `Instance "${values.customerId}" is being created.`,
+      });
+    }
+
     setOpen(false);
-    toast({
-      title: 'VM Provisioning Started',
-      description: `Instance "${values.customerId}" is being created.`,
-    });
     // If a key was generated, we don't need to show it again as it's available for download/copy
     // But for a real app, a modal to confirm download is a good idea.
     if (generatedKey) {
-        // Reset generated key state after submission
-        setTimeout(() => setGeneratedKey(null), 500);
+      // Reset generated key state after submission
+      setTimeout(() => setGeneratedKey(null), 500);
     }
     form.reset();
   };
 
+  const dialogTitle = isSettingsPage ? 'Add New SSH Key' : 'Create New VM';
+  const dialogDescription = isSettingsPage
+    ? 'Generate or paste an SSH public key to add to your account.'
+    : 'Configure and launch a new Ubuntu virtual machine.';
+  const submitButtonText = isSettingsPage ? 'Add Key' : 'Create VM';
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Create VM
-        </Button>
+        {isSettingsPage ? (
+          <Button variant="outline" className="w-full">
+            Add New Key
+          </Button>
+        ) : (
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Create VM
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogHeader>
-              <DialogTitle className="font-headline">Create New VM</DialogTitle>
-              <DialogDescription>
-                Configure and launch a new Ubuntu virtual machine.
-              </DialogDescription>
+              <DialogTitle className="font-headline">{dialogTitle}</DialogTitle>
+              <DialogDescription>{dialogDescription}</DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {!isSettingsPage && (
+                <>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="customerId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Instance Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="prod-web-server" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>User Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="user@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="cpu"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>vCPUs</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select cores" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="1">1 Core</SelectItem>
+                              <SelectItem value="2">2 Cores</SelectItem>
+                              <SelectItem value="4">4 Cores</SelectItem>
+                              <SelectItem value="8">8 Cores</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="ram"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>RAM</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select memory" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="2">2 GB</SelectItem>
+                              <SelectItem value="4">4 GB</SelectItem>
+                              <SelectItem value="8">8 GB</SelectItem>
+                              <SelectItem value="16">16 GB</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="disk"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Disk</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select storage" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="20">20 GB</SelectItem>
+                              <SelectItem value="40">40 GB</SelectItem>
+                              <SelectItem value="80">80 GB</SelectItem>
+                              <SelectItem value="160">160 GB</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </>
+              )}
+              {isSettingsPage && (
                 <FormField
                   control={form.control}
                   name="customerId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Instance Name</FormLabel>
+                      <FormLabel>Key Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="prod-web-server" {...field} />
+                        <Input placeholder="My new key" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>User Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="user@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="cpu"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>vCPUs</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select cores" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="1">1 Core</SelectItem>
-                          <SelectItem value="2">2 Cores</SelectItem>
-                          <SelectItem value="4">4 Cores</SelectItem>
-                          <SelectItem value="8">8 Cores</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ram"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>RAM</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select memory" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="2">2 GB</SelectItem>
-                          <SelectItem value="4">4 GB</SelectItem>
-                          <SelectItem value="8">8 GB</SelectItem>
-                          <SelectItem value="16">16 GB</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="disk"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Disk</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select storage" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="20">20 GB</SelectItem>
-                          <SelectItem value="40">40 GB</SelectItem>
-                          <SelectItem value="80">80 GB</SelectItem>
-                          <SelectItem value="160">160 GB</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </div>
+              )}
 
               <FormField
                 control={form.control}
@@ -293,17 +334,44 @@ export default function CreateVmDialog() {
 
               {generatedKey && (
                 <Card className="mt-4 bg-muted/50">
-                    <CardHeader>
-                        <CardTitle className="text-base">Your New Private Key</CardTitle>
-                        <p className="text-sm text-muted-foreground">Save this key securely. You will not be able to see it again.</p>
-                    </CardHeader>
-                    <CardContent>
-                        <Textarea readOnly value={generatedKey.privateKey} className="font-code text-xs h-32" />
-                        <div className="mt-2 flex gap-2">
-                             <Button type="button" size="sm" variant="outline" onClick={() => copyToClipboard(generatedKey.privateKey, 'Private key')}><Copy className="mr-2 h-4 w-4"/>Copy</Button>
-                             <Button type="button" size="sm" variant="outline" onClick={downloadPrivateKey}><Download className="mr-2 h-4 w-4"/>Download</Button>
-                        </div>
-                    </CardContent>
+                  <CardHeader>
+                    <CardTitle className="text-base">
+                      Your New Private Key
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Save this key securely. You will not be able to see it
+                      again.
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <Textarea
+                      readOnly
+                      value={generatedKey.privateKey}
+                      className="font-code text-xs h-32"
+                    />
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          copyToClipboard(generatedKey.privateKey, 'Private key')
+                        }
+                      >
+                        <Copy className="mr-2 h-4 w-4" />
+                        Copy
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={downloadPrivateKey}
+                      >
+                        <Download className="mr-2 h-4 w-4" />
+                        Download
+                      </Button>
+                    </div>
+                  </CardContent>
                 </Card>
               )}
             </div>
@@ -314,7 +382,7 @@ export default function CreateVmDialog() {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Create VM</Button>
+              <Button type="submit">{submitButtonText}</Button>
             </DialogFooter>
           </form>
         </Form>

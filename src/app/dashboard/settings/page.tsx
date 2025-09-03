@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import AddKeyButton from '@/components/settings/add-key-button';
+import { Button } from '@/components/ui/button';
 
 export default function SettingsPage() {
   return (
@@ -39,7 +39,11 @@ export default function SettingsPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="john.doe@example.com" />
+                <Input
+                  id="email"
+                  type="email"
+                  defaultValue="john.doe@example.com"
+                />
               </div>
             </CardContent>
             <CardFooter>
@@ -56,11 +60,17 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="space-y-2">
-                    <Label htmlFor="ssh-key-1">Primary Key</Label>
-                    <Textarea id="ssh-key-1" readOnly rows={4} className="font-code text-xs" defaultValue="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABg..."/>
-                </div>
-                 <Button variant="outline" className="w-full">Add New Key</Button>
+              <div className="space-y-2">
+                <Label htmlFor="ssh-key-1">Primary Key</Label>
+                <Textarea
+                  id="ssh-key-1"
+                  readOnly
+                  rows={4}
+                  className="font-code text-xs"
+                  defaultValue="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABg..."
+                />
+              </div>
+              <AddKeyButton />
             </CardContent>
           </Card>
         </div>
