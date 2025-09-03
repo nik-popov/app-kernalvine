@@ -1,3 +1,5 @@
+'use client';
+import { useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -9,12 +11,24 @@ import VmList from '@/components/dashboard/vm-list';
 import StatCard from '@/components/dashboard/stat-card';
 import { Cpu, DollarSign, HardDrive, Server } from 'lucide-react';
 import CreateVmDialog from '@/components/dashboard/create-vm-dialog';
-import OnboardingTour from '@/components/dashboard/onboarding-tour';
+import {
+  driveOnboardingTour,
+  isOnboardingComplete,
+} from '@/components/dashboard/onboarding-tour';
 
 export default function Dashboard() {
+  useEffect(() => {
+    if (!isOnboardingComplete()) {
+      // We need a slight delay to ensure the dashboard elements have rendered.
+      const timer = setTimeout(() => {
+        driveOnboardingTour();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <>
-      <OnboardingTour />
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
@@ -30,7 +44,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" data-tour-id="stats-overview">
+        <div
+          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+          data-tour-id="stats-overview"
+        >
           <StatCard
             title="Active VMs"
             value="2"
