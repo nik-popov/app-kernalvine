@@ -19,6 +19,16 @@ const driverObj = driver({
         side: 'bottom',
         align: 'start',
       },
+      onHighlightStarted: (element) => {
+        if (element) {
+            (element as HTMLElement).style.pointerEvents = 'none';
+        }
+      },
+      onDeselected: (element) => {
+        if (element) {
+            (element as HTMLElement).style.pointerEvents = '';
+        }
+      }
     },
     {
       element: '[data-tour-id="stats-overview"]',
