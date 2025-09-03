@@ -28,6 +28,7 @@ export function AuthForm() {
         variant: 'destructive',
         title: 'Authentication Failed',
         description: error.message,
+        error: error,
       });
     } finally {
       setIsLoading(false);
