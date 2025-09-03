@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/sidebar';
 
 const menuItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/billing', label: 'Billing', icon: CreditCard },
-  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, tourId: 'sidebar-dashboard' },
+  { href: '/dashboard/billing', label: 'Billing', icon: CreditCard, tourId: 'sidebar-billing' },
+  { href: '/dashboard/settings', label: 'Settings', icon: Settings, tourId: 'sidebar-settings' },
 ];
 
 export default function AppSidebar() {
@@ -36,7 +36,7 @@ export default function AppSidebar() {
       <SidebarContent className="flex-1 p-2">
         <SidebarMenu>
           {menuItems.map((item) => (
-            <SidebarMenuItem key={item.href}>
+            <SidebarMenuItem key={item.href} data-tour-id={item.tourId}>
               <SidebarMenuButton
                 asChild
                 isActive={pathname.startsWith(item.href)}

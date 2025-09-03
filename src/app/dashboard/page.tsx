@@ -25,12 +25,12 @@ export default function Dashboard() {
               Welcome back! Here's an overview of your virtual machines.
             </p>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block" data-tour-id="create-vm">
             <CreateVmDialog />
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" data-tour-id="stats-overview">
           <StatCard
             title="Active VMs"
             value="2"
@@ -57,7 +57,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <Card>
+        <Card data-tour-id="vm-list">
           <CardHeader>
             <CardTitle>My Virtual Machines</CardTitle>
             <CardDescription>

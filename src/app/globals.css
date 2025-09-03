@@ -83,3 +83,61 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Onboarding Tour Styles */
+@layer components {
+    :root {
+        --driver-bg-color: hsl(var(--background));
+        --driver-popover-bg-color: hsl(var(--popover));
+        --driver-popover-text-color: hsl(var(--popover-foreground));
+        --driver-popover-border-color: hsl(var(--border));
+        --driver-popover-title-color: hsl(var(--popover-foreground));
+        --driver-popover-description-color: hsl(var(--muted-foreground));
+        --driver-button-hover-bg-color: hsl(var(--accent));
+        --driver-button-hover-text-color: hsl(var(--accent-foreground));
+        --driver-button-active-bg-color: hsl(var(--accent));
+        --driver-button-active-text-color: hsl(var(--accent-foreground));
+    }
+    div.driver-popover {
+        border-radius: var(--radius);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .driver-popover-title {
+        font-family: theme('fontFamily.headline');
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+    button.driver-popover-close-btn {
+        color: hsl(var(--muted-foreground));
+    }
+     button.driver-popover-close-btn:hover {
+        color: hsl(var(--foreground));
+     }
+
+    .driver-popover-footer button {
+        text-shadow: none;
+        border-radius: var(--radius);
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+    
+    .driver-popover-footer button.driver-popover-prev-btn {
+        background-color: hsl(var(--secondary));
+        color: hsl(var(--secondary-foreground));
+        border: 1px solid hsl(var(--border));
+    }
+    .driver-popover-footer button.driver-popover-prev-btn:hover {
+        background-color: hsl(var(--muted));
+    }
+
+    .driver-popover-footer button.driver-popover-next-btn,
+    .driver-popover-footer button.driver-popover-done-btn {
+         background-color: hsl(var(--primary));
+         color: hsl(var(--primary-foreground));
+    }
+     .driver-popover-footer button.driver-popover-next-btn:hover,
+    .driver-popover-footer button.driver-popover-done-btn:hover {
+         background-color: hsl(var(--primary) / 0.9);
+    }
+}
