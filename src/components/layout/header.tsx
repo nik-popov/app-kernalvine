@@ -1,5 +1,5 @@
 'use client';
-import { CircleUser, Menu, Search, Bot } from 'lucide-react';
+import { CircleUser, Menu, Search, Bot, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,9 +13,28 @@ import { Input } from '@/components/ui/input';
 import { useSidebar } from '@/components/ui/sidebar';
 import CreateVmDialog from '../dashboard/create-vm-dialog';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function Header() {
   const { toggleSidebar } = useSidebar();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast({ title: 'Logged Out', description: 'You have been successfully logged out.' });
+      router.push('/');
+    } catch (error) {
+      toast({ variant: 'destructive', title: 'Logout Failed', description: 'Could not log you out. Please try again.' });
+    }
+  };
+
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Button
@@ -53,8 +72,9 @@ export default function Header() {
           </DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href="/">Logout</Link>
+          <DropdownMenuItem onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
