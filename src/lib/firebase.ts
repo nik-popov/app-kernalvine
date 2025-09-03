@@ -8,7 +8,6 @@ const firebaseConfig = {
   apiKey: 'AIzaSyABIMubCSQUjxmJU3pOY_dy_Ui8JAlVh5E',
   authDomain: 'kvm-cloud-rentals.firebaseapp.com',
   messagingSenderId: '186409941941',
-  measurementId: '',
 };
 
 // Initialize Firebase
