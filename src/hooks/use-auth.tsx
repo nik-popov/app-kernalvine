@@ -1,9 +1,23 @@
 'use client';
 
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { onAuthStateChanged, User, getAuth } from 'firebase/auth';
 import { useRouter, usePathname } from 'next/navigation';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyABIMubCSQUjxmJU3pOY_dy_Ui8JAlVh5E",
+  authDomain: "kvm-cloud-rentals.firebaseapp.com",
+  projectId: "kvm-cloud-rentals",
+  storageBucket: "kvm-cloud-rentals.appspot.com",
+  messagingSenderId: "186409941941",
+  appId: "1:186409941941:web:026fe4d5f285a2b6a3f7fc",
+};
+
+
+// Initialize Firebase
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
 type AuthContextType = {
   user: User | null;
@@ -33,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (loading) return;
 
-    const isAuthPage = pathname === '/' || pathname === '/signup';
+    const isAuthPage = pathname === '/';
     
     if (!user && !isAuthPage) {
       router.push('/');
