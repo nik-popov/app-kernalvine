@@ -3,12 +3,12 @@
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 
-const ONBOARDING_STORAGE_KEY = 'kernal-vine-onboarding-complete';
+const ONBOARDING_STORAGE_KEY = 'kernal-vine-onboarding-complete-v2';
 
 const driverObj = driver({
   showProgress: true,
   popoverClass: 'driver-popover',
-  allowClose: false,
+  allowClose: true,
   steps: [
     {
       element: '[data-tour-id="create-vm"]',
