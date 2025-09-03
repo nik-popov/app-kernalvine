@@ -1,7 +1,6 @@
 'use client';
 import { AuthForm } from '@/components/auth/auth-form';
 import { Bot } from 'lucide-react';
-import Link from 'next/link';
 
 export default function LoginPage() {
   return (
@@ -18,13 +17,7 @@ export default function LoginPage() {
             Sign in to access your dashboard
           </p>
         </div>
-        <AuthForm mode="login" />
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="font-semibold text-primary hover:underline">
-            Sign up
-          </Link>
-        </p>
+        <AuthForm />
       </div>
     </div>
   );
