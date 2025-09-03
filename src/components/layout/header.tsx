@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useSidebar } from '@/components/ui/sidebar';
 import CreateVmDialog from '../dashboard/create-vm-dialog';
 import Link from 'next/link';
-import { auth } from '@/hooks/use-auth';
+import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
