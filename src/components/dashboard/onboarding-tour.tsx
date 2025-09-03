@@ -21,6 +21,7 @@ export default function OnboardingTour() {
     const driverObj = driver({
       showProgress: true,
       popoverClass: 'driver-popover',
+      allowClose: false,
       steps: [
         {
           element: '[data-tour-id="create-vm"]',
